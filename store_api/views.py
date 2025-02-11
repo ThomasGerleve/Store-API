@@ -1,12 +1,12 @@
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import generics
 from rest_framework.filters import SearchFilter
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import Store
 from .serializers import StoreSerializer
 
 class StoreListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Store.objects.all()
+    queryset = Store.objects.all().order_by('id')
     serializer_class = StoreSerializer
     pagination_class = PageNumberPagination
     filter_backends = [SearchFilter]
@@ -17,6 +17,8 @@ class StoreListCreateAPIView(generics.ListCreateAPIView):
         if self.request.method == 'POST':
           if self.request.user.groups.filter(name='manager').exists():
             self.permission_classes = [IsAuthenticated]
+          else:
+            self.permission_classes = [IsAdminUser]
         return super().get_permissions()
 
 class StoreRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -29,4 +31,6 @@ class StoreRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
         else:
           if self.request.user.groups.filter(name='manager').exists():
             self.permission_classes = [IsAuthenticated]
+          else:
+            self.permission_classes = [IsAdminUser]
         return super().get_permissions()
