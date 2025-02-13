@@ -1,0 +1,56 @@
+# GET AUTHENTICATION TOKEN
+POST http://127.0.0.1:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "username": "manager",
+  "password": "manager"
+}
+
+###
+# REFRESH AUTHENTICATION TOKEN
+POST http://127.0.0.1:8000/api/token/refresh/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "refresh": "<refresh token>"
+}
+
+###
+# GET STORES
+GET http://127.0.0.1:8000/stores/ HTTP/1.1
+Authorization: Bearer <access token>
+
+###
+# CREATE STORE
+POST http://127.0.0.1:8000/stores/ HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer <access token>
+
+{
+  "name": "New Store",
+  "address": "Frischgasse 21, 24680 Neudorf",
+  "opening_hours": "Mo-Sa 08:00-20:00"
+}
+
+###
+# GET STORE
+GET http://127.0.0.1:8000/stores/1 HTTP/1.1
+Authorization: Bearer <access token>
+
+###
+# UPDATE STORE
+PUT http://127.0.0.1:8000/stores/1 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer <access token>
+
+{
+  "name": "Updated Store 1",
+  "address": "Badstraße 100, 12345 Monopolis",
+  "opening_hours": "Mo,Mi,Fr 6:00 - 18:00, So 8:00 - 12:00"
+}
+
+###
+# DELETE STORE
+DELETE http://127.0.0.1:8000/stores/1 HTTP/1.1
+Authorization: Bearer <access token>
